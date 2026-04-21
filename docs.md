@@ -1,5 +1,6 @@
 npx create-expo-app@latest --template default@sdk-54 ./
 
+
 npm run reset-project
 
 npx expo start
@@ -30,6 +31,9 @@ To hide the headings in the top
 set screenOptions ={{headerShown: false}} to the <Stack> in layout files
 
 Also create a button link to the pages "spotify Subscriptions", "Claude max subscriptions"
+
+npm i react-native-safe-area-context --to override the new iphone home edge at bottom tab which is 34 pix 
+where as in the older one it is null--
 
 
 
