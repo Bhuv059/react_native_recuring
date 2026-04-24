@@ -23,7 +23,7 @@ this will clear the error.
 create new files
 1. (auth)/sign-in
 2. (auth)/sign-up
-3. (auth)/_layout.tsx
+3. (auth)/_layoutListHeading.tsx
 
 create links for these above pages with a button in the index page
 
@@ -35,7 +35,12 @@ Also create a button link to the pages "spotify Subscriptions", "Claude max subs
 npm i react-native-safe-area-context --to override the new iphone home edge at bottom tab which is 34 pix 
 where as in the older one it is null--
 
+npm install dayjs
 
+Create a currency formatting function in  that takes
+in a value and currency as params and formats a number as standart
+u.s money ($ with exactly two decimal places, defaulting to 
+USD. you can use a try-catch and handle the fallback)
 
 
 
