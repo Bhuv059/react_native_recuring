@@ -18,11 +18,13 @@ export default function formatCurrency(value: number, currency = "USD") {
 		}).format(value);
 	}
 }
+/*
 
 // Examples:
 console.log(formatCurrency(1234.5));           // $1,234.50
 console.log(formatCurrency(1234.5, "EUR"));    // €1,234.50
 console.log(formatCurrency(1234.5, "INVALID"));// $1,234.50 (fallback)
+*/
 
 export const formatSubscriptionDateTime = (value?: string): string => {
 	if (!value) return "Not provided";
