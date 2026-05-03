@@ -24,6 +24,9 @@ const SignIn = () => {
 	const passwordValid = password.length > 0;
 	const formValid = emailAddress.length > 0 && password.length > 0 && emailValid;
 
+	const needsEmailCodeVerification = (status: typeof signIn.status) =>
+		status === 'needs_client_trust' || status === 'needs_second_factor';
+
 	const handleSubmit = async () => {
 		if (!formValid) return;
 
@@ -62,17 +65,16 @@ const SignIn = () => {
 					}
 				},
 			});
-		} else if (signIn.status === 'needs_second_factor') {
-			// Handle MFA if needed (not implemented in this basic flow)
-			console.log('MFA required');
-		} else if (signIn.status === 'needs_client_trust') {
-			// Send email code for client trust verification
+		} else if (needsEmailCodeVerification(signIn.status)) {
+			// Send email code for client trust or second factor verification.
 			const emailCodeFactor = signIn.supportedSecondFactors.find(
 				(factor) => factor.strategy === 'email_code'
 			);
 
 			if (emailCodeFactor) {
 				await signIn.mfa.sendEmailCode();
+			} else {
+				console.error('Sign-in requires a non-email second factor:', signIn.supportedSecondFactors);
 			}
 		} else {
 			console.error('Sign-in attempt not complete:', signIn);
@@ -112,8 +114,8 @@ const SignIn = () => {
 		}
 	};
 
-	// Show verification screen if client trust is needed
-	if (signIn.status === 'needs_client_trust') {
+	// Show verification screen if client trust or second factor verification is needed.
+	if (needsEmailCodeVerification(signIn.status)) {
 		return (
 			<SafeAreaView className="auth-safe-area">
 				<KeyboardAvoidingView

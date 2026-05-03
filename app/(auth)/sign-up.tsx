@@ -7,6 +7,21 @@ import { styled } from 'nativewind';
 
 const SafeAreaView = styled(RNSafeAreaView);
 
+const getErrorMessage = (error: unknown, fallback: string) => {
+	if (error instanceof Error && error.message) {
+		return error.message;
+	}
+
+	if (typeof error === 'object' && error !== null && 'message' in error) {
+		const message = error.message;
+		if (typeof message === 'string' && message.length > 0) {
+			return message;
+		}
+	}
+
+	return fallback;
+};
+
 const SignUp = () => {
 	const { signUp, errors, fetchStatus } = useSignUp();
 	const { isSignedIn } = useAuth();
@@ -15,6 +30,7 @@ const SignUp = () => {
 	const [emailAddress, setEmailAddress] = useState('');
 	const [password, setPassword] = useState('');
 	const [code, setCode] = useState('');
+	const [verificationError, setVerificationError] = useState('');
 
 	// Validation states
 	const [emailTouched, setEmailTouched] = useState(false);
@@ -48,12 +64,19 @@ const SignUp = () => {
 	};
 
 	const handleVerify = async () => {
-		await signUp.verifications.verifyEmailCode({
-			code,
-		});
+		setVerificationError('');
 
-		if (signUp.status === 'complete') {
-			await signUp.finalize({
+		try {
+			const result = await signUp.verifications.verifyEmailCode({
+				code,
+			});
+
+			if (result.error) {
+				setVerificationError(getErrorMessage(result.error, 'The verification code could not be verified.'));
+				return;
+			}
+
+			const finalizeResult = await signUp.finalize({
 				navigate: ({ session, decorateUrl }) => {
 					if (session?.currentTask) {
 						console.log(session?.currentTask);
@@ -80,8 +103,12 @@ const SignUp = () => {
 					}
 				},
 			});
-		} else {
-			console.error('Sign-up attempt not complete:', signUp);
+
+			if (finalizeResult.error) {
+				setVerificationError(getErrorMessage(finalizeResult.error, 'Sign-up could not be completed.'));
+			}
+		} catch (error) {
+			setVerificationError(getErrorMessage(error, 'The verification code could not be verified.'));
 		}
 	};
 
@@ -140,8 +167,11 @@ const SignUp = () => {
 											autoComplete="one-time-code"
 											maxLength={6}
 										/>
-										{errors.fields.code && (
-											<Text className="auth-error">{errors.fields.code.message}</Text>
+										{errors?.fields?.code && (
+											<Text className="auth-error">{errors?.fields?.code?.message}</Text>
+										)}
+										{verificationError && (
+											<Text className="auth-error">{verificationError}</Text>
 										)}
 									</View>
 
@@ -220,8 +250,8 @@ const SignUp = () => {
 									{emailTouched && !emailValid && (
 										<Text className="auth-error">Please enter a valid email address</Text>
 									)}
-									{errors.fields.emailAddress && (
-										<Text className="auth-error">{errors.fields.emailAddress.message}</Text>
+									{errors?.fields?.emailAddress && (
+										<Text className="auth-error">{errors?.fields?.emailAddress?.message}</Text>
 									)}
 								</View>
 
@@ -240,8 +270,8 @@ const SignUp = () => {
 									{passwordTouched && !passwordValid && (
 										<Text className="auth-error">Password must be at least 8 characters</Text>
 									)}
-									{errors.fields.password && (
-										<Text className="auth-error">{errors.fields.password.message}</Text>
+									{errors?.fields?.password && (
+										<Text className="auth-error">{errors?.fields?.password?.message}</Text>
 									)}
 									{!passwordTouched && (
 										<Text className="auth-helper">Minimum 8 characters required</Text>
