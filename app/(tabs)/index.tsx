@@ -1,4 +1,4 @@
-import {FlatList, Image, Text, View} from "react-native";
+import {FlatList, Image, Pressable, Text, View, StyleSheet } from "react-native";
 import {SafeAreaView as RNSafeAreaView} from "react-native-safe-area-context";
 import {styled} from "nativewind"
 import images from "@/constants/images";
@@ -10,9 +10,15 @@ import ListHeading from "@/components/ListHeading";
 import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import React, {useState} from "react";
+import { Show, useUser } from '@clerk/expo'
+import { useClerk } from '@clerk/expo'
+import {Link} from "expo-router";
 const SafeAreaView = styled(RNSafeAreaView)
 
 export default function App() {
+    const { user } = useUser()
+    const { signOut } = useClerk()
+
     const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string|null>(null);
     return (
         <SafeAreaView className="flex-1 bg-background p-5">
@@ -23,8 +29,30 @@ export default function App() {
                               <>
                                   <View className="home-header" >
                                       <View className="home-user" >
-                                          <Image source={images.avatar} className="home-avatar" />
-                                          <Text className="home-user-name"> {HOME_USER.name}</Text>
+                                          <Show when="signed-out">
+                                              <Link href="/(auth)/sign-in">
+                                                  <Text>Sign in</Text>
+                                              </Link>
+                                              <Link href="/(auth)/sign-up">
+                                                  <Text>Sign up</Text>
+                                              </Link>
+                                          </Show>
+                                          {/*<Show when="signed-in">
+                                              <Text>Hello  {user?.firstName || 'there'}</Text>
+                                              <Pressable style={styles.button} onPress={() => signOut()}>
+                                                  <Text style={styles.buttonText}>Sign out</Text>
+                                              </Pressable>
+                                          </Show>*/}
+                                          {user?.imageUrl && (
+                                              <Image
+                                                  source={{ uri: user.imageUrl }}
+                                                  className="home-avatar"
+                                              />
+                                          )}
+
+                                          <Text className="home-user-name">
+                                              {user?.firstName || user?.fullName || 'User'}
+                                          </Text>
                                       </View>
                                       <Image source={icons.add} className="home-add-icon" />
                                   </View>
@@ -68,3 +96,27 @@ export default function App() {
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        paddingTop: 60,
+        gap: 16,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    button: {
+        backgroundColor: '#0a7ea4',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: '600',
+    },
+})

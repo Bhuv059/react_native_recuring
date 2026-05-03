@@ -6,9 +6,24 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {components, colors } from "@/constants/theme";
 import {Image} from "react-native";
 
+import { useAuth } from '@clerk/expo'
+import { Redirect, Stack } from 'expo-router'
+
 const tabBar = components.tabBar
 
 const TabLayout = () =>{
+
+
+	const { isSignedIn, isLoaded } = useAuth()
+
+	if (!isLoaded) {
+		return null
+	}
+
+	if (!isSignedIn) {
+		return <Redirect href="/(auth)/sign-in" />
+	}
+
 	const insets = useSafeAreaInsets()
 	const TabIcon = ({focused, icon}: TabIconProps) => {
 		return(
