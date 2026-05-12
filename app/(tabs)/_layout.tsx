@@ -7,30 +7,9 @@ import {components, colors } from "@/constants/theme";
 import {Image} from "react-native";
 import { useAuth } from '@clerk/expo';
 
-import { useAuth } from '@clerk/expo'
-import { Redirect, Stack } from 'expo-router'
-
 const tabBar = components.tabBar
 
-<<<<<<< HEAD
-const TabLayout = () =>{
-
-
-	const { isSignedIn, isLoaded } = useAuth()
-
-	if (!isLoaded) {
-		return null
-	}
-
-	if (!isSignedIn) {
-		return <Redirect href="/(auth)/sign-in" />
-	}
-
-	const insets = useSafeAreaInsets()
-	const TabIcon = ({focused, icon}: TabIconProps) => {
-=======
 const TabIcon = ({focused, icon}: TabIconProps) => {
->>>>>>> 0858a5a (Clerk auth implementation)
 		return(
 			<View className="tabs-icon">
 				<View className={clsx('tabs-pill',focused && 'tabs-active')}>

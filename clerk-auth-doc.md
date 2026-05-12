@@ -295,10 +295,10 @@ This approach uses Clerk's [`pre-built native components`](https://clerk.com/doc
 
 This approach uses custom flows built with React Native components and **works in Expo Go — no dev build required.**
 
-1. ## Enable Native API
+1. ## Custom Flow - Enable Native API
 
    In the Clerk Dashboard, navigate to the [**Native applications**](https://dashboard.clerk.com/~/native-applications) page and ensure that the Native API is enabled. This is required to integrate Clerk in your native application.
-2. ## Create a new Expo app
+2. ## Custom Flow - Create a new Expo app
 
    If you don't already have an Expo app, run the following commands to [create a new one](https://docs.expo.dev/tutorial/create-your-first-app/).
 
@@ -306,7 +306,7 @@ This approach uses custom flows built with React Native components and **works i
    npx create-expo-app@latest clerk-expo
    cd clerk-expo
    ```
-3. ## Remove default template files
+3. ## Custom Flow - Remove default template files
 
    The default Expo template includes files that will conflict with the routes you'll create in this guide. Remove the conflicting files:
 
@@ -327,7 +327,7 @@ This approach uses custom flows built with React Native components and **works i
    ```
 
    > You can skip this step if you used `npx create-expo-app@latest --template blank` to create your app. However, the blank template doesn't include [Expo Router](https://docs.expo.dev/router/introduction/) or pre-styled UI components. You'll need to install `expo-router` and its dependencies to follow along with this guide.
-4. ## Install dependencies
+4. ## Custom Flow - Install dependencies
 
    Install the required packages. Use `npx expo install` to ensure SDK-compatible versions.
 
@@ -337,7 +337,7 @@ This approach uses custom flows built with React Native components and **works i
    ```bash
    npx expo install @clerk/expo expo-secure-store
    ```
-5. ## Set your Clerk API keys
+5. ## Custom Flow - Set your Clerk API keys
 
    Add your Clerk Publishable Key to your `.env` file.
 
@@ -350,7 +350,7 @@ This approach uses custom flows built with React Native components and **works i
    ```env {{ filename: '.env' }}
    EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY={{pub_key}}
    ```
-6. ## Add `<ClerkProvider>` to your root layout
+6. ## Custom Flow - Add `<ClerkProvider>` to your root layout
 
    The [`<ClerkProvider>`](https://clerk.com/docs/expo/reference/components/clerk-provider.md) component provides session and user context to Clerk's hooks and components. It's recommended to wrap your entire app at the entry point with `<ClerkProvider>` to make authentication globally accessible. See the [`reference docs`](https://clerk.com/docs/expo/reference/components/clerk-provider.md) for other configuration options.
 
@@ -1002,7 +1002,7 @@ This approach uses custom flows built with React Native components and **works i
     - Press `i` to open the iOS simulator.
     - Press `a` to open the Android emulator.
     - Scan the QR code with Expo Go to run the app on a physical device.
-13. ## Create your first user
+13. ## Custom Flow - Create your first user
 
     Once the app opens on your device or simulator:
 
