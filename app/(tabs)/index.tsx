@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import {FlatList, Image, Pressable, Text, View, StyleSheet } from "react-native";
+=======
+import {FlatList, Image, Text, View, Button} from "react-native";
+>>>>>>> 0858a5a (Clerk auth implementation)
 import {SafeAreaView as RNSafeAreaView} from "react-native-safe-area-context";
 import {styled} from "nativewind"
 import images from "@/constants/images";
@@ -15,19 +19,28 @@ import { useClerk } from '@clerk/expo'
 import {Link} from "expo-router";
 const SafeAreaView = styled(RNSafeAreaView)
 
+import {  useUser } from '@clerk/expo'
+
 export default function App() {
+<<<<<<< HEAD
     const { user } = useUser()
     const { signOut } = useClerk()
+=======
+
+    const { user } = useUser()
+
+>>>>>>> 0858a5a (Clerk auth implementation)
 
     const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string|null>(null);
+    const displayName = user?.firstName || user?.fullName || user?.emailAddresses[0]?.emailAddress || 'User';
     return (
         <SafeAreaView className="flex-1 bg-background p-5">
-
 
                 <FlatList
                           ListHeaderComponent={(
                               <>
                                   <View className="home-header" >
+<<<<<<< HEAD
                                       <View className="home-user" >
                                           <Show when="signed-out">
                                               <Link href="/(auth)/sign-in">
@@ -53,8 +66,16 @@ export default function App() {
                                           <Text className="home-user-name">
                                               {user?.firstName || user?.fullName || 'User'}
                                           </Text>
+=======
+                                      <View className="home-user">
+                                          <Image
+                                              source={user?.imageUrl ? { uri: user.imageUrl } : images.avatar}
+                                              className="home-avatar"
+                                          />
+                                          <Text className="home-user-name">{displayName}</Text>
+>>>>>>> 0858a5a (Clerk auth implementation)
                                       </View>
-                                      <Image source={icons.add} className="home-add-icon" />
+
                                   </View>
                                   <View className="home-balance-card" >
                                       <Text className="home-balance-label"> Balance</Text>

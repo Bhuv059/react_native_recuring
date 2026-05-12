@@ -24,9 +24,12 @@ const SignIn = () => {
 	const passwordValid = password.length > 0;
 	const formValid = emailAddress.length > 0 && password.length > 0 && emailValid;
 
+<<<<<<< HEAD
 	const needsEmailCodeVerification = (status: typeof signIn.status) =>
 		status === 'needs_client_trust' || status === 'needs_second_factor';
 
+=======
+>>>>>>> 0858a5a (Clerk auth implementation)
 	const handleSubmit = async () => {
 		if (!formValid) return;
 
@@ -50,7 +53,10 @@ const SignIn = () => {
 					}
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0858a5a (Clerk auth implementation)
 					const url = decorateUrl('/(tabs)');
 					if (url.startsWith('http')) {
 						// Only use window.location on web platform
@@ -65,16 +71,27 @@ const SignIn = () => {
 					}
 				},
 			});
+<<<<<<< HEAD
 		} else if (needsEmailCodeVerification(signIn.status)) {
 			// Send email code for client trust or second factor verification.
+=======
+		} else if (signIn.status === 'needs_second_factor') {
+			// Handle MFA if needed (not implemented in this basic flow)
+			console.log('MFA required');
+		} else if (signIn.status === 'needs_client_trust') {
+			// Send email code for client trust verification
+>>>>>>> 0858a5a (Clerk auth implementation)
 			const emailCodeFactor = signIn.supportedSecondFactors.find(
 				(factor) => factor.strategy === 'email_code'
 			);
 
 			if (emailCodeFactor) {
 				await signIn.mfa.sendEmailCode();
+<<<<<<< HEAD
 			} else {
 				console.error('Sign-in requires a non-email second factor:', signIn.supportedSecondFactors);
+=======
+>>>>>>> 0858a5a (Clerk auth implementation)
 			}
 		} else {
 			console.error('Sign-in attempt not complete:', signIn);
@@ -94,7 +111,10 @@ const SignIn = () => {
 
 					// Track successful sign-in after verification
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0858a5a (Clerk auth implementation)
 					const url = decorateUrl('/(tabs)');
 					if (url.startsWith('http')) {
 						// Only use window.location on web platform
@@ -114,8 +134,13 @@ const SignIn = () => {
 		}
 	};
 
+<<<<<<< HEAD
 	// Show verification screen if client trust or second factor verification is needed.
 	if (needsEmailCodeVerification(signIn.status)) {
+=======
+	// Show verification screen if client trust is needed
+	if (signIn.status === 'needs_client_trust') {
+>>>>>>> 0858a5a (Clerk auth implementation)
 		return (
 			<SafeAreaView className="auth-safe-area">
 				<KeyboardAvoidingView
@@ -301,4 +326,8 @@ const SignIn = () => {
 	);
 };
 
+<<<<<<< HEAD
 export default SignIn;
+=======
+export default SignIn;
+>>>>>>> 0858a5a (Clerk auth implementation)

@@ -11,7 +11,11 @@
     "lint": "expo lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@clerk/expo": "^3.2.4",
+=======
+    "@clerk/expo": "^3.2.10",
+>>>>>>> 0858a5a (Clerk auth implementation)
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
@@ -25,7 +29,11 @@
     "expo-image": "~3.0.11",
     "expo-linking": "~8.0.11",
     "expo-router": "~6.0.23",
+<<<<<<< HEAD
     "expo-secure-store": "^55.0.13",
+=======
+    "expo-secure-store": "~15.0.8",
+>>>>>>> 0858a5a (Clerk auth implementation)
     "expo-splash-screen": "~31.0.13",
     "expo-status-bar": "~3.0.9",
     "expo-symbols": "~1.0.8",

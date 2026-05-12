@@ -6,6 +6,7 @@ import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
 import { styled } from 'nativewind';
 
 const SafeAreaView = styled(RNSafeAreaView);
+<<<<<<< HEAD
 
 const getErrorMessage = (error: unknown, fallback: string) => {
 	if (error instanceof Error && error.message) {
@@ -21,6 +22,8 @@ const getErrorMessage = (error: unknown, fallback: string) => {
 
 	return fallback;
 };
+=======
+>>>>>>> 0858a5a (Clerk auth implementation)
 
 const SignUp = () => {
 	const { signUp, errors, fetchStatus } = useSignUp();
@@ -30,7 +33,10 @@ const SignUp = () => {
 	const [emailAddress, setEmailAddress] = useState('');
 	const [password, setPassword] = useState('');
 	const [code, setCode] = useState('');
+<<<<<<< HEAD
 	const [verificationError, setVerificationError] = useState('');
+=======
+>>>>>>> 0858a5a (Clerk auth implementation)
 
 	// Validation states
 	const [emailTouched, setEmailTouched] = useState(false);
@@ -51,9 +57,13 @@ const SignUp = () => {
 
 		if (error) {
 			console.error(JSON.stringify(error, null, 2));
+<<<<<<< HEAD
 			/*posthog.capture('user_sign_up_failed', {
 				error_message: error.message,
 			});*/
+=======
+
+>>>>>>> 0858a5a (Clerk auth implementation)
 			return;
 		}
 
@@ -64,6 +74,7 @@ const SignUp = () => {
 	};
 
 	const handleVerify = async () => {
+<<<<<<< HEAD
 		setVerificationError('');
 
 		try {
@@ -77,18 +88,30 @@ const SignUp = () => {
 			}
 
 			const finalizeResult = await signUp.finalize({
+=======
+		await signUp.verifications.verifyEmailCode({
+			code,
+		});
+
+		if (signUp.status === 'complete') {
+			await signUp.finalize({
+>>>>>>> 0858a5a (Clerk auth implementation)
 				navigate: ({ session, decorateUrl }) => {
 					if (session?.currentTask) {
 						console.log(session?.currentTask);
 						return;
 					}
 
+<<<<<<< HEAD
 					/*posthog.identify(emailAddress, {
 						$set: { email: emailAddress },
 						$set_once: { sign_up_date: new Date().toISOString() },
 					});
 					posthog.capture('user_signed_up', { email: emailAddress });
 					*/
+=======
+
+>>>>>>> 0858a5a (Clerk auth implementation)
 					const url = decorateUrl('/(tabs)');
 					if (url.startsWith('http')) {
 						// Only use window.location on web platform
@@ -103,12 +126,17 @@ const SignUp = () => {
 					}
 				},
 			});
+<<<<<<< HEAD
 
 			if (finalizeResult.error) {
 				setVerificationError(getErrorMessage(finalizeResult.error, 'Sign-up could not be completed.'));
 			}
 		} catch (error) {
 			setVerificationError(getErrorMessage(error, 'The verification code could not be verified.'));
+=======
+		} else {
+			console.error('Sign-up attempt not complete:', signUp);
+>>>>>>> 0858a5a (Clerk auth implementation)
 		}
 	};
 
@@ -142,7 +170,11 @@ const SignUp = () => {
 										<Text className="auth-logo-mark-text">R</Text>
 									</View>
 									<View>
+<<<<<<< HEAD
 										<Text className="auth-wordmark">Recurly</Text>
+=======
+										<Text className="auth-wordmark">Recurrly</Text>
+>>>>>>> 0858a5a (Clerk auth implementation)
 										<Text className="auth-wordmark-sub">SUBSCRIPTIONS</Text>
 									</View>
 								</View>
@@ -167,11 +199,16 @@ const SignUp = () => {
 											autoComplete="one-time-code"
 											maxLength={6}
 										/>
+<<<<<<< HEAD
 										{errors?.fields?.code && (
 											<Text className="auth-error">{errors?.fields?.code?.message}</Text>
 										)}
 										{verificationError && (
 											<Text className="auth-error">{verificationError}</Text>
+=======
+										{errors.fields.code && (
+											<Text className="auth-error">{errors.fields.code.message}</Text>
+>>>>>>> 0858a5a (Clerk auth implementation)
 										)}
 									</View>
 
@@ -221,7 +258,11 @@ const SignUp = () => {
 									<Text className="auth-logo-mark-text">R</Text>
 								</View>
 								<View>
+<<<<<<< HEAD
 									<Text className="auth-wordmark">Recurly</Text>
+=======
+									<Text className="auth-wordmark">Recurrly</Text>
+>>>>>>> 0858a5a (Clerk auth implementation)
 									<Text className="auth-wordmark-sub">SUBSCRIPTIONS</Text>
 								</View>
 							</View>
@@ -250,8 +291,13 @@ const SignUp = () => {
 									{emailTouched && !emailValid && (
 										<Text className="auth-error">Please enter a valid email address</Text>
 									)}
+<<<<<<< HEAD
 									{errors?.fields?.emailAddress && (
 										<Text className="auth-error">{errors?.fields?.emailAddress?.message}</Text>
+=======
+									{errors.fields.emailAddress && (
+										<Text className="auth-error">{errors.fields.emailAddress.message}</Text>
+>>>>>>> 0858a5a (Clerk auth implementation)
 									)}
 								</View>
 
@@ -270,8 +316,13 @@ const SignUp = () => {
 									{passwordTouched && !passwordValid && (
 										<Text className="auth-error">Password must be at least 8 characters</Text>
 									)}
+<<<<<<< HEAD
 									{errors?.fields?.password && (
 										<Text className="auth-error">{errors?.fields?.password?.message}</Text>
+=======
+									{errors.fields.password && (
+										<Text className="auth-error">{errors.fields.password.message}</Text>
+>>>>>>> 0858a5a (Clerk auth implementation)
 									)}
 									{!passwordTouched && (
 										<Text className="auth-helper">Minimum 8 characters required</Text>
@@ -309,4 +360,8 @@ const SignUp = () => {
 	);
 };
 
+<<<<<<< HEAD
 export default SignUp;
+=======
+export default SignUp;
+>>>>>>> 0858a5a (Clerk auth implementation)
