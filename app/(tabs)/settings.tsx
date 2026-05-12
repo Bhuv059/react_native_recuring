@@ -1,79 +1,73 @@
+import {Pressable, Text, View} from 'react-native'
+import {useRouter} from 'expo-router'
+import {useAuth, useUser} from '@clerk/expo'
 import {SafeAreaView as RNSafeAreaView} from "react-native-safe-area-context";
 import {styled} from "nativewind"
 const SafeAreaView = styled(RNSafeAreaView)
 
-import { View, Text, Image, Pressable } from "react-native"
-import { useUser, useClerk } from "@clerk/expo"
-import dayjs from "dayjs"
 
-export default function Settings() {
-	const { user } = useUser()
-	const { signOut } = useClerk()
+const Settings = () => {
+	const {signOut} = useAuth()
+	const {user} = useUser()
+	const router = useRouter()
+	const joinedDate = user?.createdAt
+		? new Intl.DateTimeFormat('en', {
+			month: 'long',
+			day: 'numeric',
+			year: 'numeric',
+		}).format(new Date(user.createdAt))
+		: 'Not available'
 
-	if (!user) return null
+	const accountDetails = [
+		{label: 'Account ID', value: user?.id ?? 'Not available'},
+		{label: 'Name', value: user?.fullName ?? user?.username ?? 'Not available'},
+		{label: 'Email', value: user?.primaryEmailAddress?.emailAddress ?? 'Not available'},
+		{label: 'Joined', value: joinedDate},
+	]
+
+	const handleLogout = async () => {
+		await signOut()
+		router.replace('/(auth)/sign-in')
+	}
 
 	return (
-		<SafeAreaView className="flex-1 bg-background p-5">
-
-			{/* Header */}
-			<View className="home-header">
-				<Text className="list-title">Settings</Text>
-			</View>
-
-			{/* Profile */}
-			<View className="items-center mt-4">
-				{user.imageUrl && (
-					<Image
-						source={{ uri: user.imageUrl }}
-						className="size-24 rounded-full"
-					/>
-				)}
-
-				<Text className="text-xl font-sans-bold text-primary mt-3">
-					{user.fullName || "User"}
-				</Text>
-
-				<Text className="text-sm text-muted-foreground mt-1">
-					{user.primaryEmailAddress?.emailAddress}
-				</Text>
-			</View>
-
-			{/* Account Info Card */}
-			<View className="auth-card mt-8 gap-5">
-
-				<View className="sub-row">
-					<Text className="sub-label">User ID</Text>
-					<Text className="sub-value">{user.id}</Text>
-				</View>
-
-				<View className="sub-row">
-					<Text className="sub-label">Email</Text>
-					<Text className="sub-value">
-						{user.primaryEmailAddress?.emailAddress}
+		<SafeAreaView className="settings-safe-area">
+			<View className="settings-content">
+				<View className="auth-brand-block">
+					<View className="auth-logo-wrap">
+						<View className="auth-logo-mark">
+							<Text className="auth-logo-mark-text">R</Text>
+						</View>
+						<View>
+							<Text className="auth-wordmark">Recurrly</Text>
+							<Text className="auth-wordmark-sub">SUBSCRIPTIONS</Text>
+						</View>
+					</View>
+					<Text className="auth-title">Settings</Text>
+					<Text className="auth-subtitle">
+						Manage your account and session
 					</Text>
 				</View>
 
-				<View className="sub-row">
-					<Text className="sub-label">Joined</Text>
-					<Text className="sub-value">
-						{dayjs(user.createdAt).format("MMM D, YYYY")}
-					</Text>
+				<View className="settings-card">
+					<View className="settings-section">
+						<Text className="settings-label">Account</Text>
+						<View className="settings-details">
+							{accountDetails.map((item) => (
+								<View className="settings-detail-row" key={item.label}>
+									<Text className="settings-detail-label">{item.label}</Text>
+									<Text className="settings-detail-value">{item.value}</Text>
+								</View>
+							))}
+						</View>
+					</View>
+
+					<Pressable className="settings-logout-button" onPress={handleLogout}>
+						<Text className="settings-logout-button-text">Log Out</Text>
+					</Pressable>
 				</View>
-
 			</View>
-
-			{/* Actions */}
-			<View className="mt-8">
-				<Pressable
-					className="auth-button"
-					onPress={() => signOut()}
-				>
-					<Text className="auth-button-text">
-						Sign out
-					</Text>
-				</Pressable>
-			</View>
-
-		</SafeAreaView>
+		</SafeAreaView >
 	)
 }
+export default Settings

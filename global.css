@@ -351,6 +351,54 @@
         @apply text-sm font-sans-bold text-accent;
     }
 
+    .settings-safe-area {
+        @apply flex-1 bg-background;
+    }
+
+    .settings-content {
+        @apply flex-1 px-5 pb-30 pt-8;
+    }
+
+    .settings-card {
+        @apply mt-8 rounded-3xl border border-border bg-card p-5;
+    }
+
+    .settings-section {
+        @apply gap-2;
+    }
+
+    .settings-label {
+        @apply text-sm font-sans-semibold text-primary;
+    }
+
+    .settings-copy {
+        @apply text-base font-sans-medium text-muted-foreground;
+    }
+
+    .settings-details {
+        @apply mt-2 gap-4;
+    }
+
+    .settings-detail-row {
+        @apply gap-1 border-b border-border pb-3;
+    }
+
+    .settings-detail-label {
+        @apply text-xs font-sans-semibold uppercase tracking-[1px] text-muted-foreground;
+    }
+
+    .settings-detail-value {
+        @apply text-base font-sans-bold text-primary;
+    }
+
+    .settings-logout-button {
+        @apply mt-5 items-center rounded-2xl bg-accent py-4;
+    }
+
+    .settings-logout-button-text {
+        @apply text-base font-sans-bold text-primary;
+    }
+
     .modal-overlay {
         @apply flex-1 bg-black/50;
     }
