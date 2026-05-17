@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import { icons } from "@/constants/icons";
+import {posthog} from "@/lib/posthog";
 
 type Frequency = "Monthly" | "Yearly";
 
@@ -97,7 +98,12 @@ const CreateSubscriptionModal = ({
 			color: categoryColors[category],
 			currency: "USD",
 		});
-
+		posthog.capture('subscription_created', {
+			subscription_name: name.trim(),
+			subscription_price: price,
+			subscription_category: category,
+			subscription_frequency: frequency,
+		});
 		resetForm();
 		onClose();
 	};
