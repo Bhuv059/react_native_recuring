@@ -23,6 +23,7 @@ declare global {
 		startDate?: string;
 		price: number;
 		currency?: string;
+		frequency?: string;
 		billing: string;
 		renewalDate?: string;
 		color?: string;
@@ -44,8 +45,7 @@ declare global {
 		daysLeft: number;
 	}
 
-	interface UpcomingSubscriptionCardProps
-		extends Omit<UpcomingSubscription, "id"> {}
+	type UpcomingSubscriptionCardProps = Omit<UpcomingSubscription, "id">;
 
 	interface ListHeadingProps {
 		title: string;
