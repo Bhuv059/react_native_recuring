@@ -45,3 +45,7 @@ USD. you can use a try-catch and handle the fallback)
 
 
 
+.env--file -content before fix
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_dGVhY2hpbmctaGVkZ2Vob2ctNDcuY2xlcmsuYWNjb3VudHMuZGV2JA
+EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN=phc_BvEZdi47vheH8yDda2VsNVddyNHmgYogSL6LgWBMJP9s
+EXPO_PUBLIC_POSTHOG_HOST=https://eu.i.posthog.com

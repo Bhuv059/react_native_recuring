@@ -48,10 +48,14 @@ const SignIn = () => {
 						return;
 					}
 
-					posthog.identify(emailAddress, {
-						$set: { email: emailAddress },
+					const analyticsUserId = session?.user?.id;
+					if (analyticsUserId) {
+						posthog.identify(analyticsUserId);
+					}
+					posthog.capture('user_signed_in', {
+						method: 'password',
+						...(analyticsUserId ? { user_id: analyticsUserId } : {}),
 					});
-					posthog.capture('user_signed_in', { method: 'password' });
 
 					const url = decorateUrl('/(tabs)');
 					if (url.startsWith('http')) {
@@ -95,10 +99,14 @@ const SignIn = () => {
 						return;
 					}
 
-						posthog.identify(emailAddress, {
-						$set: { email: emailAddress },
+					const analyticsUserId = session?.user?.id;
+					if (analyticsUserId) {
+						posthog.identify(analyticsUserId);
+					}
+					posthog.capture('user_signed_in', {
+						method: 'mfa',
+						...(analyticsUserId ? { user_id: analyticsUserId } : {}),
 					});
-					posthog.capture('user_signed_in', { method: 'mfa' });
 
 					const url = decorateUrl('/(tabs)');
 					if (url.startsWith('http')) {
@@ -292,7 +300,7 @@ const SignIn = () => {
 
 						{/* Sign-Up Link */}
 						<View className="auth-link-row">
-							<Text className="auth-link-copy">Don't have an account?</Text>
+							<Text className="auth-link-copy">{"Don't have an account?"}</Text>
 							<Link href="/(auth)/sign-up" asChild>
 								<Pressable>
 									<Text className="auth-link">Create Account</Text>
