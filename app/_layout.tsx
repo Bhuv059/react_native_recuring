@@ -9,6 +9,31 @@ import { PostHogProvider } from 'posthog-react-native'
 import { posthog } from '@/lib/posthog'
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!
+const EXCLUDED_ANALYTICS_PARAM_KEYS = new Set([
+  'access_token',
+  'auth_code',
+  'code',
+  'id_token',
+  'password',
+  'refresh_token',
+  'secret',
+  'session',
+  'token',
+])
+
+function getSafeAnalyticsParams(params: Record<string, string | string[]>) {
+  return Object.fromEntries(
+    Object.entries(params).filter(([key, value]) => {
+      const normalizedKey = key.toLowerCase()
+
+      return (
+        normalizedKey.startsWith('utm_') &&
+        !EXCLUDED_ANALYTICS_PARAM_KEYS.has(normalizedKey) &&
+        typeof value === 'string'
+      )
+    })
+  )
+}
 
 if (!publishableKey) {
   throw new Error('Add your Clerk Publishable Key to the .env file')
@@ -23,9 +48,11 @@ function RootLayoutNav() {
 
   useEffect(() => {
     if (previousPathname.current !== pathname) {
+      const safeParams = getSafeAnalyticsParams(params)
+
       posthog.screen(pathname, {
         previous_screen: previousPathname.current ?? null,
-        ...params,
+        ...safeParams,
       })
       previousPathname.current = pathname
     }

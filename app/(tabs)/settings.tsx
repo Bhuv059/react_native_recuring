@@ -29,8 +29,9 @@ const Settings = () => {
 
 	const handleLogout = async () => {
 		posthog.capture('user_logged_out')
-		posthog.reset()
+		await posthog.flush()
 		await signOut()
+		posthog.reset()
 		router.replace('/(auth)/sign-in')
 	}
 
