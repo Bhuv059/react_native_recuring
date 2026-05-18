@@ -3,6 +3,7 @@ import {useRouter} from 'expo-router'
 import {useAuth, useUser} from '@clerk/expo'
 import {SafeAreaView as RNSafeAreaView} from "react-native-safe-area-context";
 import {styled} from "nativewind"
+import {usePostHog} from 'posthog-react-native'
 const SafeAreaView = styled(RNSafeAreaView)
 
 
@@ -10,6 +11,7 @@ const Settings = () => {
 	const {signOut} = useAuth()
 	const {user} = useUser()
 	const router = useRouter()
+	const posthog = usePostHog()
 	const joinedDate = user?.createdAt
 		? new Intl.DateTimeFormat('en', {
 			month: 'long',
@@ -26,6 +28,8 @@ const Settings = () => {
 	]
 
 	const handleLogout = async () => {
+		posthog.capture('user_logged_out')
+		posthog.reset()
 		await signOut()
 		router.replace('/(auth)/sign-in')
 	}
